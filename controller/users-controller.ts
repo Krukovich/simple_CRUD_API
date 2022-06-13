@@ -1,5 +1,5 @@
 import usersService from '../service/users-service';
-import { IUser } from '../interfaces';
+import { ICandidate, IUser } from '../interfaces';
 
 class UsersController {
   private userService: any;
@@ -9,7 +9,11 @@ class UsersController {
   }
 
   async getAllUsers(): Promise<IUser[]> {
-    return this.userService.getUsers();
+    return await this.userService.apiGetUsers();
+  }
+
+  async createUser({ username, age, hobbies }: ICandidate): Promise<void> {
+    await this.userService.apiCreateUser({ username, age, hobbies });
   }
 }
 

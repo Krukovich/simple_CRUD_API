@@ -1,4 +1,5 @@
-import { IUser } from '../interfaces';
+import { ICandidate, IUser } from '../interfaces';
+import * as uuid from 'uuid';
 
 class UsersService {
   public users: IUser[];
@@ -7,8 +8,17 @@ class UsersService {
     this.users = [];
   }
 
-  async getUsers(): Promise<IUser[]> {
+  async apiGetUsers(): Promise<IUser[]> {
     return this.users;
+  }
+
+  async apiCreateUser({ username, age, hobbies }: ICandidate): Promise<void> {
+    this.users.push({
+      id: uuid.v4(),
+      age,
+      hobbies,
+      username,
+    });
   }
 }
 

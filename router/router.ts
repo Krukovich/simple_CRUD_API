@@ -1,23 +1,38 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import usersController from '../controller/users-controller';
-import { IUser } from '../interfaces';
-import { STATUS_CODE } from '../constants';
+import { ICandidate, IUser } from '../interfaces';
+import { HTTP_METHOD, STATUS_CODE } from '../constants';
+import { getRequestData } from '../utils';
 
 export const router = async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
-  switch (request.url) {
-    case '/api/users':
-      try {
-        const users: IUser[] = await usersController.getAllUsers();
-        response.statusCode = STATUS_CODE.OK;
-        response.end(JSON.stringify({ users }));
-      } catch (e) {
-        response.statusCode = STATUS_CODE.INTERNAL_SERVER_ERROR;
-        response.end(JSON.stringify('INTERNAL_SERVER_ERROR'));
+  switch (request.method) {
+    case HTTP_METHOD.GET:
+      if (request.url === '/api/users') {
+        try {
+          const users: IUser[] = await usersController.getAllUsers();
+          response.writeHead(STATUS_CODE.OK, { 'Content-Type': 'application/json' });
+          response.end(JSON.stringify({ users }));
+        } catch (e) {
+          response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR);
+          response.end(JSON.stringify({ message: 'INTERNAL_SERVER_ERROR' }));
+        }
+      } else if (request.url.match(/\/api\/users\/(\d+)/)) {
+        //TODO COMPLETE THIS ENDPOINT
       }
       break;
+    case HTTP_METHOD.POST:
+      try {
+        const { username, age, hobbies }: ICandidate = await getRequestData(request);
+        await usersController.createUser({ username, age, hobbies });
+        response.writeHead(STATUS_CODE.CREATED);
+        response.end();
+      } catch (e) {}
+      break;
+    case HTTP_METHOD.PUT:
+      break;
+    case HTTP_METHOD.DELETE:
+      break;
     default:
-      response.statusCode = STATUS_CODE.NOT_FOUND;
-      response.end('BAD_REQUEST');
       break;
   }
 };
