@@ -6,7 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "start:dev": "nodemon ./index.ts",
-    "start:prod": "webpack"
+    "start:prod": "webpack",
+    "format": "npx prettier --write ."
   },
   "repository": {
     "type": "git",

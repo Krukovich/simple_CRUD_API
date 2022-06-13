@@ -1,6 +1,6 @@
 import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { STATUS_CODE } from './constants';
-import 'dotenv/config'
+import 'dotenv/config';
 
 const PORT: string = process.env.PORT;
 
