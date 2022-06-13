@@ -1,0 +1,38 @@
+{
+  "name": "simple_CRUD_API",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start:dev": "nodemon ./index.ts",
+    "start:prod": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Krukovich/simple_CRUD_API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Krukovich/simple_CRUD_API/issues"
+  },
+  "homepage": "https://github.com/Krukovich/simple_CRUD_API#readme",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "eslint": "^8.17.0",
+    "nodemon": "^2.0.16",
+    "prettier": "2.6.2",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "html-webpack-plugin": "^5.5.0",
+    "uuid": "^8.3.2",
+    "webpack-merge": "^5.8.0"
+  }
+}
