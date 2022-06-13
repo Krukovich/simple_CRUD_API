@@ -1,4 +1,5 @@
 import usersService from '../service/users-service';
+import { IUser } from '../interfaces';
 
 class UsersController {
   private userService: any;
@@ -7,7 +8,7 @@ class UsersController {
     this.userService = userService;
   }
 
-  async getAllUsers() {
+  async getAllUsers(): Promise<IUser[]> {
     return this.userService.getUsers();
   }
 }

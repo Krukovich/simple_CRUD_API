@@ -1,11 +1,13 @@
+import { IUser } from '../interfaces';
+
 class UsersService {
-  public users;
+  public users: IUser[];
 
   constructor() {
     this.users = [];
   }
 
-  async getUsers() {
+  async getUsers(): Promise<IUser[]> {
     return this.users;
   }
 }
