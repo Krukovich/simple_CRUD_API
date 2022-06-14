@@ -1,5 +1,5 @@
 import { ICandidate, IUser } from '../interfaces';
-import * as uuid from 'uuid';
+import uuid from 'uuid';
 
 class UsersService {
   public users: IUser[];
@@ -18,6 +18,27 @@ class UsersService {
       age,
       hobbies,
       username,
+    });
+  }
+
+  async apiGetUserById(id: string): Promise<IUser> {
+    return this.users.find((user: IUser) => user.id === id);
+  }
+
+  async apiDeleteUser(id: string): Promise<void> {
+    this.users = this.users.filter((user: IUser) => user.id !== id);
+  }
+
+  async apiUpdateUser(id: string, { username, age, hobbies }: ICandidate): Promise<void> {
+    this.users = this.users.filter((user: IUser) => {
+      if (user.id === id) {
+        return {
+          id: user.id,
+          username,
+          age,
+          hobbies,
+        };
+      }
     });
   }
 }

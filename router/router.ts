@@ -1,23 +1,19 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import usersController from '../controller/users-controller';
-import { ICandidate, IUser } from '../interfaces';
+import { ICandidate } from '../interfaces';
 import { HTTP_METHOD, STATUS_CODE } from '../constants';
-import { getRequestData } from '../utils';
+import { checkParams, getRequestData } from '../utils';
+import { endpoints } from './endpoints';
+
+//TODO CHANGE STRUCTURE ROUTER
 
 export const router = async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
   switch (request.method) {
     case HTTP_METHOD.GET:
-      if (request.url === '/api/users') {
-        try {
-          const users: IUser[] = await usersController.getAllUsers();
-          response.writeHead(STATUS_CODE.OK, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify({ users }));
-        } catch (e) {
-          response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR);
-          response.end(JSON.stringify({ message: 'INTERNAL_SERVER_ERROR' }));
-        }
-      } else if (request.url.match(/\/api\/users\/(\d+)/)) {
-        //TODO COMPLETE THIS ENDPOINT
+      if (checkParams(request.url)) {
+        await endpoints.getUsersById(request, response);
+      } else {
+        await endpoints.getUsers(request, response);
       }
       break;
     case HTTP_METHOD.POST:
@@ -36,6 +32,8 @@ export const router = async (request: IncomingMessage, response: ServerResponse)
       break;
   }
 };
+
+//TODO ADD HANDLER ERROR
 
 //TODO IMPLEMENT THIS ENDPOINT
 // api/users GET
