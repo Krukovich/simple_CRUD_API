@@ -19,6 +19,7 @@ export const router = async (request: IncomingMessage, response: ServerResponse)
       await endpoints.updateUser(request, response);
       break;
     case HTTP_METHOD.DELETE:
+      await endpoints.deleteUser(request, response);
       break;
     default:
       break;

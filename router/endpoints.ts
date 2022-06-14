@@ -4,11 +4,15 @@ import { STATUS_CODE } from '../constants';
 import { IncomingMessage, ServerResponse } from 'http';
 import { getParams, getRequestData } from '../utils';
 
+//TODO ADD LOGIC FOR SHOW RIGHT ERROR STATUS AND ERROR MESSAGE
+//TODO ADD UNIT TEST AND LIB
+
 export const endpoints: {
   getUsers: (request: IncomingMessage, response: ServerResponse) => Promise<void>;
   getUsersById: (request: IncomingMessage, response: ServerResponse) => Promise<void>;
   saveUser: (request: IncomingMessage, response: ServerResponse) => Promise<void>;
   updateUser: (request: IncomingMessage, response: ServerResponse) => Promise<void>;
+  deleteUser: (request: IncomingMessage, response: ServerResponse) => Promise<void>;
 } = {
   getUsers: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
     try {
@@ -47,6 +51,17 @@ export const endpoints: {
       const id: string = getParams(request);
       const { username, age, hobbies }: ICandidate = await getRequestData(request);
       await usersController.updateUser(id, { username, age, hobbies });
+      response.writeHead(STATUS_CODE.OK, { 'Content-Type': 'application/json' });
+      response.end();
+    } catch (e: unknown) {
+      response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR);
+      response.end(JSON.stringify({ message: 'INTERNAL_SERVER_ERROR' }));
+    }
+  },
+  deleteUser: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
+    try {
+      const id: string = getParams(request);
+      await usersController.deleteUser(id);
       response.writeHead(STATUS_CODE.OK, { 'Content-Type': 'application/json' });
       response.end();
     } catch (e: unknown) {
