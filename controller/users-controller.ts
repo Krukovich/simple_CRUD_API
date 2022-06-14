@@ -4,10 +4,10 @@ import { ICandidate, IUser } from '../interfaces';
 class UsersController {
   private userService: {
     apiGetUsers: () => Promise<IUser[]>;
-    apiCreateUser: (arg: { username: string; age: number; hobbies: string | string[] }) => Promise<void>;
+    apiCreateUser: (arg: ICandidate) => Promise<void>;
     apiGetUserById: (id: string) => Promise<IUser>;
     apiDeleteUser: (id: string) => Promise<void>;
-    apiUpdateUser: (id: string, arg: { username: string; age: number; hobbies: string | string[] }) => Promise<void>;
+    apiUpdateUser: (id: string, arg: ICandidate) => Promise<void>;
   };
 
   constructor(userService) {
