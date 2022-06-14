@@ -32,9 +32,17 @@ class UsersService {
     this.users = this.users.filter((user: IUser) => user.id !== id);
   }
 
-  async apiUpdateUser(id: string, { username, age, hobbies }: ICandidate): Promise<void> {
+  async apiUpdateUser(id: string, { username, age, hobbies }: ICandidate): Promise<IUser> {
+    let prepareUser: IUser;
+
     this.users = this.users.map((user: IUser) => {
       if (user.id === id) {
+        prepareUser = {
+          id: user.id,
+          username,
+          age,
+          hobbies,
+        };
         return {
           id: user.id,
           username,
@@ -45,6 +53,8 @@ class UsersService {
         return user;
       }
     });
+
+    return prepareUser;
   }
 }
 

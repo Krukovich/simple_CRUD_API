@@ -4,7 +4,6 @@ import { STATUS_CODE } from '../constants';
 import { IncomingMessage, ServerResponse } from 'http';
 import { getParams, getRequestData } from '../utils';
 
-//TODO ADD LOGIC FOR RETURN USER DATA AFTER PUT AND POST REQUEST
 //TODO ADD LOGIC FOR SHOW RIGHT ERROR STATUS AND ERROR MESSAGE
 //TODO ADD UNIT TEST AND LIB
 //TODO CHANGE WEBPACK SETTINGS FOR CREATE BUILD FOLDER AND RUN APPLICATION
@@ -53,9 +52,9 @@ export const endpoints: {
     try {
       const id: string = getParams(request);
       const { username, age, hobbies }: ICandidate = await getRequestData(request);
-      await usersController.updateUser(id, { username, age, hobbies });
+      const newUser: IUser = await usersController.updateUser(id, { username, age, hobbies });
       response.writeHead(STATUS_CODE.OK, { 'Content-Type': 'application/json' });
-      response.end();
+      response.end(JSON.stringify({ newUser }));
     } catch (e: unknown) {
       response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR);
       response.end(JSON.stringify({ message: 'INTERNAL_SERVER_ERROR' }));
