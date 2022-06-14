@@ -2,7 +2,7 @@ import { ICandidate, IUser } from '../interfaces';
 import usersController from '../controller/users-controller';
 import { ERROR_MESSAGE, STATUS_CODE } from '../constants';
 import { IncomingMessage, ServerResponse } from 'http';
-import { getParams, getRequestData, uuidValidateV4 } from '../utils';
+import { getParams, getRequestData, prepareResponse, uuidValidateV4 } from '../utils';
 
 //TODO ADD UNIT TEST AND LIB
 //TODO CHANGE WEBPACK SETTINGS FOR CREATE BUILD FOLDER AND RUN APPLICATION
@@ -19,11 +19,13 @@ export const endpoints: {
   getUsers: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
     try {
       const users: IUser[] = await usersController.getAllUsers();
-      response.writeHead(STATUS_CODE.OK, { 'Content-Type': 'application/json' });
-      response.end(JSON.stringify({ users }));
+      prepareResponse(response, { statusCode: STATUS_CODE.OK, data: users, message: undefined });
     } catch (e: unknown) {
-      response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR, { 'Content-Type': 'application/json' });
-      response.end(JSON.stringify({ message: ERROR_MESSAGE.SERVER_ERROR }));
+      prepareResponse(response, {
+        statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
+        data: undefined,
+        message: ERROR_MESSAGE.SERVER_ERROR,
+      });
     }
   },
   getUsersById: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
@@ -34,19 +36,27 @@ export const endpoints: {
         const user: IUser = await usersController.getUserById(id);
 
         if (user) {
-          response.writeHead(STATUS_CODE.OK, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify({ user }));
+          prepareResponse(response, { statusCode: STATUS_CODE.OK, data: user, message: undefined });
         } else {
-          response.writeHead(STATUS_CODE.NOT_FOUND, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify({ message: ERROR_MESSAGE.USER_NOT_FOUND }));
+          prepareResponse(response, {
+            statusCode: STATUS_CODE.NOT_FOUND,
+            data: undefined,
+            message: ERROR_MESSAGE.USER_NOT_FOUND,
+          });
         }
       } else {
-        response.writeHead(STATUS_CODE.BAD_REQUEST, { 'Content-Type': 'application/json' });
-        response.end(JSON.stringify({ message: ERROR_MESSAGE.UUID_IS_INVALID }));
+        prepareResponse(response, {
+          statusCode: STATUS_CODE.BAD_REQUEST,
+          data: undefined,
+          message: ERROR_MESSAGE.UUID_IS_INVALID,
+        });
       }
     } catch (e: unknown) {
-      response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR, { 'Content-Type': 'application/json' });
-      response.end(JSON.stringify({ message: ERROR_MESSAGE.SERVER_ERROR }));
+      prepareResponse(response, {
+        statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
+        data: undefined,
+        message: ERROR_MESSAGE.SERVER_ERROR,
+      });
     }
   },
   saveUser: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
@@ -54,16 +64,21 @@ export const endpoints: {
       const { username, age, hobbies }: ICandidate = await getRequestData(request);
 
       if (!username || !age || !hobbies) {
-        response.writeHead(STATUS_CODE.BAD_REQUEST, { 'Content-Type': 'application/json' });
-        response.end(JSON.stringify({ message: ERROR_MESSAGE.REQUIRED_FIELDS }));
+        prepareResponse(response, {
+          statusCode: STATUS_CODE.BAD_REQUEST,
+          data: undefined,
+          message: ERROR_MESSAGE.REQUIRED_FIELDS,
+        });
         return;
       }
       const newUser: IUser = await usersController.createUser({ username, age, hobbies });
-      response.writeHead(STATUS_CODE.CREATED, { 'Content-Type': 'application/json' });
-      response.end(JSON.stringify({ newUser }));
+      prepareResponse(response, { statusCode: STATUS_CODE.CREATED, data: newUser, message: undefined });
     } catch (e: unknown) {
-      response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR, { 'Content-Type': 'application/json' });
-      response.end(JSON.stringify({ message: ERROR_MESSAGE.SERVER_ERROR }));
+      prepareResponse(response, {
+        statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
+        data: undefined,
+        message: ERROR_MESSAGE.SERVER_ERROR,
+      });
     }
   },
   updateUser: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
@@ -74,26 +89,37 @@ export const endpoints: {
         const { username, age, hobbies }: ICandidate = await getRequestData(request);
 
         if (!username || !age || !hobbies) {
-          response.writeHead(STATUS_CODE.BAD_REQUEST, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify({ message: ERROR_MESSAGE.REQUIRED_FIELDS }));
+          prepareResponse(response, {
+            statusCode: STATUS_CODE.BAD_REQUEST,
+            data: undefined,
+            message: ERROR_MESSAGE.REQUIRED_FIELDS,
+          });
           return;
         }
         const newUser: IUser = await usersController.updateUser(id, { username, age, hobbies });
 
         if (newUser) {
-          response.writeHead(STATUS_CODE.OK, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify({ newUser }));
+          prepareResponse(response, { statusCode: STATUS_CODE.OK, data: newUser, message: undefined });
         } else {
-          response.writeHead(STATUS_CODE.NOT_FOUND, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify({ message: ERROR_MESSAGE.USER_NOT_FOUND }));
+          prepareResponse(response, {
+            statusCode: STATUS_CODE.NOT_FOUND,
+            data: undefined,
+            message: ERROR_MESSAGE.USER_NOT_FOUND,
+          });
         }
       } else {
-        response.writeHead(STATUS_CODE.BAD_REQUEST, { 'Content-Type': 'application/json' });
-        response.end(JSON.stringify({ message: ERROR_MESSAGE.UUID_IS_INVALID }));
+        prepareResponse(response, {
+          statusCode: STATUS_CODE.BAD_REQUEST,
+          data: undefined,
+          message: ERROR_MESSAGE.UUID_IS_INVALID,
+        });
       }
     } catch (e: unknown) {
-      response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR, { 'Content-Type': 'application/json' });
-      response.end(JSON.stringify({ message: ERROR_MESSAGE.SERVER_ERROR }));
+      prepareResponse(response, {
+        statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
+        data: undefined,
+        message: ERROR_MESSAGE.SERVER_ERROR,
+      });
     }
   },
   deleteUser: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
@@ -104,23 +130,38 @@ export const endpoints: {
         const user: IUser = await usersController.deleteUser(id);
 
         if (user) {
-          response.writeHead(STATUS_CODE.NO_CONTENT, { 'Content-Type': 'application/json' });
-          response.end();
+          prepareResponse(response, {
+            statusCode: STATUS_CODE.NOT_FOUND,
+            data: undefined,
+            message: ERROR_MESSAGE.DELETE_USER,
+          });
         } else {
-          response.writeHead(STATUS_CODE.NOT_FOUND, { 'Content-Type': 'application/json' });
-          response.end(JSON.stringify({ message: ERROR_MESSAGE.USER_NOT_FOUND }));
+          prepareResponse(response, {
+            statusCode: STATUS_CODE.NOT_FOUND,
+            data: undefined,
+            message: ERROR_MESSAGE.USER_NOT_FOUND,
+          });
         }
       } else {
-        response.writeHead(STATUS_CODE.BAD_REQUEST, { 'Content-Type': 'application/json' });
-        response.end(JSON.stringify({ message: ERROR_MESSAGE.UUID_IS_INVALID }));
+        prepareResponse(response, {
+          statusCode: STATUS_CODE.BAD_REQUEST,
+          data: undefined,
+          message: ERROR_MESSAGE.UUID_IS_INVALID,
+        });
       }
     } catch (e: unknown) {
-      response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR, { 'Content-Type': 'application/json' });
-      response.end(JSON.stringify({ message: ERROR_MESSAGE.SERVER_ERROR }));
+      prepareResponse(response, {
+        statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
+        data: undefined,
+        message: ERROR_MESSAGE.SERVER_ERROR,
+      });
     }
   },
   notFound: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
-    response.writeHead(STATUS_CODE.NOT_FOUND, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify({ message: ERROR_MESSAGE.ENDPOINT_NOT_FOUND }));
+    prepareResponse(response, {
+      statusCode: STATUS_CODE.NOT_FOUND,
+      data: undefined,
+      message: ERROR_MESSAGE.USER_NOT_FOUND,
+    });
   },
 };

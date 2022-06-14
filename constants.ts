@@ -27,12 +27,14 @@ export const ERROR_MESSAGE: Readonly<{
   ENDPOINT_NOT_FOUND: 'Endpoint not found';
   SERVER_ERROR: 'The server was unable to process the request';
   REQUIRED_FIELDS: 'Fields: "username", "age", "hobbies" is required';
+  DELETE_USER: 'User is deleted';
 }> = Object.freeze({
   USER_NOT_FOUND: 'User not found',
   UUID_IS_INVALID: 'UUID is invalid',
   ENDPOINT_NOT_FOUND: 'Endpoint not found',
   SERVER_ERROR: 'The server was unable to process the request',
   REQUIRED_FIELDS: 'Fields: "username", "age", "hobbies" is required',
+  DELETE_USER: 'User is deleted',
 });
 
 export const URL_WITH_ID: number = 3;
