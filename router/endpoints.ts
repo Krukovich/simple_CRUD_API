@@ -4,8 +4,11 @@ import { STATUS_CODE } from '../constants';
 import { IncomingMessage, ServerResponse } from 'http';
 import { getParams, getRequestData } from '../utils';
 
+//TODO ADD LOGIC FOR RETURN USER DATA AFTER PUT AND POST REQUEST
 //TODO ADD LOGIC FOR SHOW RIGHT ERROR STATUS AND ERROR MESSAGE
 //TODO ADD UNIT TEST AND LIB
+//TODO CHANGE WEBPACK SETTINGS FOR CREATE BUILD FOLDER AND RUN APPLICATION
+//TODO ADD LOGIC FOR START APPLICATION WITH WORKER
 
 export const endpoints: {
   getUsers: (request: IncomingMessage, response: ServerResponse) => Promise<void>;

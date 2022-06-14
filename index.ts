@@ -3,7 +3,7 @@ import { STATUS_CODE } from './constants';
 import { router } from './router/router';
 import 'dotenv/config';
 
-const PORT: string = process.env.PORT;
+const PORT: string | number = process.env.PORT || 3000;
 
 const requestListener = (req: IncomingMessage, res: ServerResponse): void => {
   res.writeHead(STATUS_CODE.OK);
