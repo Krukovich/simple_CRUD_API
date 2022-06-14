@@ -4,7 +4,7 @@ import { ICandidate, IUser } from '../interfaces';
 class UsersController {
   private userService: {
     apiGetUsers: () => Promise<IUser[]>;
-    apiCreateUser: (arg: ICandidate) => Promise<void>;
+    apiCreateUser: (arg: ICandidate) => Promise<IUser>;
     apiGetUserById: (id: string) => Promise<IUser>;
     apiDeleteUser: (id: string) => Promise<void>;
     apiUpdateUser: (id: string, arg: ICandidate) => Promise<void>;
@@ -18,8 +18,8 @@ class UsersController {
     return await this.userService.apiGetUsers();
   }
 
-  async createUser({ username, age, hobbies }: ICandidate): Promise<void> {
-    await this.userService.apiCreateUser({ username, age, hobbies });
+  async createUser({ username, age, hobbies }: ICandidate): Promise<IUser> {
+    return await this.userService.apiCreateUser({ username, age, hobbies });
   }
 
   async getUserById(id: string): Promise<IUser> {

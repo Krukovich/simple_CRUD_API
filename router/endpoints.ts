@@ -41,9 +41,9 @@ export const endpoints: {
   saveUser: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
     try {
       const { username, age, hobbies }: ICandidate = await getRequestData(request);
-      await usersController.createUser({ username, age, hobbies });
-      response.writeHead(STATUS_CODE.CREATED);
-      response.end();
+      const newUser: IUser = await usersController.createUser({ username, age, hobbies });
+      response.writeHead(STATUS_CODE.CREATED, { 'Content-Type': 'application/json' });
+      response.end(JSON.stringify({ newUser }));
     } catch (e: unknown) {
       response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR);
       response.end(JSON.stringify({ message: 'INTERNAL_SERVER_ERROR' }));

@@ -12,13 +12,16 @@ class UsersService {
     return this.users;
   }
 
-  async apiCreateUser({ username, age, hobbies }: ICandidate): Promise<void> {
-    this.users.push({
+  async apiCreateUser({ username, age, hobbies }: ICandidate): Promise<IUser> {
+    const prepareUser: IUser = {
       id: uuid.v4(),
       age,
       hobbies,
       username,
-    });
+    };
+    this.users.push(prepareUser);
+
+    return prepareUser;
   }
 
   async apiGetUserById(id: string): Promise<IUser> {
