@@ -6,7 +6,7 @@ class UsersController {
     apiGetUsers: () => Promise<IUser[]>;
     apiCreateUser: (arg: ICandidate) => Promise<IUser>;
     apiGetUserById: (id: string) => Promise<IUser>;
-    apiDeleteUser: (id: string) => Promise<void>;
+    apiDeleteUser: (id: string) => Promise<IUser>;
     apiUpdateUser: (id: string, arg: ICandidate) => Promise<IUser>;
   };
 
@@ -26,8 +26,8 @@ class UsersController {
     return this.userService.apiGetUserById(id);
   }
 
-  async deleteUser(id: string): Promise<void> {
-    await this.userService.apiDeleteUser(id);
+  async deleteUser(id: string): Promise<IUser> {
+    return await this.userService.apiDeleteUser(id);
   }
 
   async updateUser(id: string, { username, age, hobbies }: ICandidate): Promise<IUser> {

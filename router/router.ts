@@ -1,9 +1,13 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { HTTP_METHOD } from '../constants';
-import { checkParams } from '../utils';
+import { checkParams, checkPathname } from '../utils';
 import { endpoints } from './endpoints';
 
 export const router = async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
+  if (!checkPathname(request)) {
+    return await endpoints.notFound(request, response);
+  }
+
   switch (request.method) {
     case HTTP_METHOD.GET:
       if (checkParams(request)) {
@@ -22,6 +26,7 @@ export const router = async (request: IncomingMessage, response: ServerResponse)
       await endpoints.deleteUser(request, response);
       break;
     default:
+      await endpoints.notFound(request, response);
       break;
   }
 };

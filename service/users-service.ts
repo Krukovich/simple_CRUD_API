@@ -28,8 +28,15 @@ class UsersService {
     return this.users.find((user: IUser) => user.id === id);
   }
 
-  async apiDeleteUser(id: string): Promise<void> {
-    this.users = this.users.filter((user: IUser) => user.id !== id);
+  async apiDeleteUser(id: string): Promise<IUser> {
+    let candidate: IUser;
+    this.users = this.users.filter((user: IUser) => {
+      if (user.id !== id) {
+        candidate = user;
+        return user;
+      }
+    });
+    return candidate;
   }
 
   async apiUpdateUser(id: string, { username, age, hobbies }: ICandidate): Promise<IUser> {
