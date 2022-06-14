@@ -20,3 +20,5 @@ export const HTTP_METHOD: Readonly<{ GET: 'GET'; POST: 'POST'; PUT: 'PUT'; DELET
   PUT: 'PUT',
   DELETE: 'DELETE',
 });
+
+export const URL_WITH_ID: number = 3;

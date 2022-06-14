@@ -1,5 +1,5 @@
 import { ICandidate, IUser } from '../interfaces';
-import uuid from 'uuid';
+import * as uuid from 'uuid';
 
 class UsersService {
   public users: IUser[];
