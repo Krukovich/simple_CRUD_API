@@ -161,7 +161,7 @@ export const endpoints: {
     prepareResponse(response, {
       statusCode: STATUS_CODE.NOT_FOUND,
       data: undefined,
-      message: ERROR_MESSAGE.USER_NOT_FOUND,
+      message: ERROR_MESSAGE.ENDPOINT_NOT_FOUND,
     });
   },
 };
