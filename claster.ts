@@ -4,13 +4,15 @@ import * as os from 'os';
 if (cluster.isMaster) {
   const cpusCount: number = os.cpus().length;
   console.log(`CPUs ${cpusCount}`);
-  console.log(`Application has started on host CPU number ${cpusCount}`);
+  console.log(`Application has started on host CPU number ${cpusCount} - 1 for main thread`);
 
-  for (let i = 0; i < cpusCount - 1; i++) {
-    cluster.fork();
-  }
+  Array(cpusCount - 1)
+    .fill('')
+    .forEach(() => {
+      cluster.fork();
+    });
+}
 
-  if (cluster.isWorker) {
-    require('./index');
-  }
+if (cluster.isWorker) {
+  require('./index');
 }
