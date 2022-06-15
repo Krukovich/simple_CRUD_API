@@ -6,7 +6,6 @@ import { getParams, getRequestData, prepareResponse, uuidValidateV4 } from '../u
 
 //TODO ADD UNIT TEST AND LIB
 //TODO CHANGE WEBPACK SETTINGS FOR CREATE BUILD FOLDER AND RUN APPLICATION
-//TODO ADD LOGIC FOR START APPLICATION WITH WORKER
 
 export const endpoints: {
   getUsers: (request: IncomingMessage, response: ServerResponse) => Promise<void>;
