@@ -4,7 +4,6 @@ import { ERROR_MESSAGE, STATUS_CODE } from '../constants';
 import { IncomingMessage, ServerResponse } from 'http';
 import { getParams, getRequestData, prepareResponse, uuidValidateV4 } from '../utils';
 
-//TODO ADD UNIT TEST AND LIB
 //TODO CHANGE WEBPACK SETTINGS FOR CREATE BUILD FOLDER AND RUN APPLICATION
 
 export const endpoints: {

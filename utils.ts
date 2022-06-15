@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import url from 'url';
+import * as url from 'url';
 import { ICandidate, IUser } from './interfaces';
 import { RIGHT_PATH, STATUS_CODE, URL_WITH_ID } from './constants';
 import { validate as uuidValidate } from 'uuid';

@@ -1,5 +1,5 @@
 import cluster from 'cluster';
-import os from 'os';
+import * as os from 'os';
 
 if (cluster.isMaster) {
   const cpusCount: number = os.cpus().length;
