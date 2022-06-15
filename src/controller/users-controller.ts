@@ -1,5 +1,5 @@
 import usersService from '../service/users-service';
-import { ICandidate, IUser } from '../interfaces';
+import { ICandidate, IUser } from '../../interfaces';
 
 class UsersController {
   private userService: {

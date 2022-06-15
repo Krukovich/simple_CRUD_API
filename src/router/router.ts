@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { HTTP_METHOD } from '../constants';
-import { checkParams, checkPathname } from '../utils';
+import { HTTP_METHOD } from '../../constants';
+import { checkParams, checkPathname } from '../../utils';
 import { endpoints } from './endpoints';
 
 export const router = async (request: IncomingMessage, response: ServerResponse): Promise<void> => {

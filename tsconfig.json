@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    "lib": ["es6"],
-    "target": "es6",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "baseUrl": "node_modules/@types",
+    "lib": [
+      "es6"
+    ],
     "outDir": "dist",
-    "resolveJsonModule": true,
-    "emitDecoratorMetadata": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
-    "sourceMap": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": [
+    "node_modules", "**/*.spec.ts"
+  ],
+  "include": [
+    "src/**/*", "*.ts"
+  ],
 }

@@ -1,4 +1,4 @@
-import { ICandidate, IUser } from '../interfaces';
+import { ICandidate, IUser } from '../../interfaces';
 import * as uuid from 'uuid';
 
 class UsersService {

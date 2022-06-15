@@ -1,10 +1,8 @@
-import { ICandidate, IUser } from '../interfaces';
+import { ICandidate, IUser } from '../../interfaces';
 import usersController from '../controller/users-controller';
-import { ERROR_MESSAGE, STATUS_CODE } from '../constants';
+import { ERROR_MESSAGE, STATUS_CODE } from '../../constants';
 import { IncomingMessage, ServerResponse } from 'http';
-import { getParams, getRequestData, prepareResponse, uuidValidateV4 } from '../utils';
-
-//TODO CHANGE WEBPACK SETTINGS FOR CREATE BUILD FOLDER AND RUN APPLICATION
+import { getParams, getRequestData, prepareResponse, uuidValidateV4 } from '../../utils';
 
 export const endpoints: {
   getUsers: (request: IncomingMessage, response: ServerResponse) => Promise<void>;

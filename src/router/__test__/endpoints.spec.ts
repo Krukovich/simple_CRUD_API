@@ -1,6 +1,6 @@
 import { endpoints } from '../endpoints';
 import { router } from '../router';
-import { ERROR_MESSAGE, STATUS_CODE } from '../../constants';
+import { ERROR_MESSAGE, STATUS_CODE } from '../../../constants';
 
 const mockResponse = () => {
   const res: any = {};

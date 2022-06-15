@@ -1,6 +1,6 @@
 import { createServer, IncomingMessage, ServerResponse } from 'http';
 import { STATUS_CODE } from './constants';
-import { router } from './router/router';
+import { router } from './src/router/router';
 import 'dotenv/config';
 
 const PORT: string | number = process.env.PORT || 3000;

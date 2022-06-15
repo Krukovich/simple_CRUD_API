@@ -1,5 +1,5 @@
 import controller from '../users-controller';
-import { IUser } from '../../interfaces';
+import { IUser } from '../../../interfaces';
 
 const mockUserData: IUser = {
   id: '2e78dc71-8307-4271-9b1c-96ea0e3ea1ce',
