@@ -1,5 +1,5 @@
-import { endpoints } from '../../router/endpoints';
-import { router } from '../../router/router';
+import { endpoints } from '../endpoints';
+import { router } from '../router';
 import { ERROR_MESSAGE, STATUS_CODE } from '../../constants';
 
 const mockResponse = () => {
