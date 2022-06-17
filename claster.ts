@@ -14,5 +14,5 @@ if (cluster.isMaster) {
 }
 
 if (cluster.isWorker) {
-  require('./index');
+  import('./index');
 }
