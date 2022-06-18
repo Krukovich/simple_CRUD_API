@@ -1,4 +1,4 @@
-import { createServer, IncomingMessage, ServerResponse } from 'http';
+import { createServer, IncomingMessage, ServerResponse, Server } from 'http';
 import { STATUS_CODE } from './constants';
 import { router } from './src/router/router';
 import 'dotenv/config';
@@ -9,7 +9,7 @@ const requestListener = (req: IncomingMessage, res: ServerResponse): void => {
   res.writeHead(STATUS_CODE.OK);
 };
 
-const server = createServer(requestListener);
+const server: Server = createServer(requestListener);
 
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

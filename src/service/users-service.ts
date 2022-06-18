@@ -32,8 +32,9 @@ class UsersService {
     let candidate: IUser;
     this.users = this.users.filter((user: IUser) => {
       if (user.id !== id) {
-        candidate = user;
         return user;
+      } else {
+        candidate = user;
       }
     });
     return candidate;

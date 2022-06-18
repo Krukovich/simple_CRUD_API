@@ -2,7 +2,7 @@ import { ICandidate, IUser } from '../../interfaces';
 import usersController from '../controller/users-controller';
 import { ERROR_MESSAGE, STATUS_CODE } from '../../constants';
 import { IncomingMessage, ServerResponse } from 'http';
-import { getParams, getRequestData, prepareResponse, uuidValidateV4 } from '../../utils';
+import { getErrorMessage, getParams, getRequestData, prepareResponse, reportError, uuidValidateV4 } from '../../utils';
 
 export const endpoints: {
   getUsers: (request: IncomingMessage, response: ServerResponse) => Promise<void>;
@@ -16,12 +16,13 @@ export const endpoints: {
     try {
       const users: IUser[] = await usersController.getAllUsers();
       prepareResponse(response, { statusCode: STATUS_CODE.OK, data: users, message: undefined });
-    } catch (e: unknown) {
+    } catch (error: unknown) {
       prepareResponse(response, {
         statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
         data: undefined,
         message: ERROR_MESSAGE.SERVER_ERROR,
       });
+      reportError({ message: getErrorMessage(error) });
     }
   },
   getUsersById: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
@@ -47,12 +48,13 @@ export const endpoints: {
           message: ERROR_MESSAGE.UUID_IS_INVALID,
         });
       }
-    } catch (e: unknown) {
+    } catch (error: unknown) {
       prepareResponse(response, {
         statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
         data: undefined,
         message: ERROR_MESSAGE.SERVER_ERROR,
       });
+      reportError({ message: getErrorMessage(error) });
     }
   },
   saveUser: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
@@ -69,12 +71,13 @@ export const endpoints: {
       }
       const newUser: IUser = await usersController.createUser({ username, age, hobbies });
       prepareResponse(response, { statusCode: STATUS_CODE.CREATED, data: newUser, message: undefined });
-    } catch (e: unknown) {
+    } catch (error: unknown) {
       prepareResponse(response, {
         statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
         data: undefined,
         message: ERROR_MESSAGE.SERVER_ERROR,
       });
+      reportError({ message: getErrorMessage(error) });
     }
   },
   updateUser: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
@@ -110,12 +113,13 @@ export const endpoints: {
           message: ERROR_MESSAGE.UUID_IS_INVALID,
         });
       }
-    } catch (e: unknown) {
+    } catch (error: unknown) {
       prepareResponse(response, {
         statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
         data: undefined,
         message: ERROR_MESSAGE.SERVER_ERROR,
       });
+      reportError({ message: getErrorMessage(error) });
     }
   },
   deleteUser: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
@@ -127,7 +131,7 @@ export const endpoints: {
 
         if (user) {
           prepareResponse(response, {
-            statusCode: STATUS_CODE.NOT_FOUND,
+            statusCode: STATUS_CODE.NO_CONTENT,
             data: undefined,
             message: ERROR_MESSAGE.DELETE_USER,
           });
@@ -145,12 +149,13 @@ export const endpoints: {
           message: ERROR_MESSAGE.UUID_IS_INVALID,
         });
       }
-    } catch (e: unknown) {
+    } catch (error: unknown) {
       prepareResponse(response, {
         statusCode: STATUS_CODE.INTERNAL_SERVER_ERROR,
         data: undefined,
         message: ERROR_MESSAGE.SERVER_ERROR,
       });
+      reportError({ message: getErrorMessage(error) });
     }
   },
   notFound: async (request: IncomingMessage, response: ServerResponse): Promise<void> => {

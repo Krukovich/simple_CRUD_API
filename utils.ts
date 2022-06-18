@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import * as url from 'url';
 import { ICandidate, IUser } from './interfaces';
-import { RIGHT_PATH, STATUS_CODE, URL_WITH_ID } from './constants';
+import { RIGHT_PATH, RIGHT_VERSION, STATUS_CODE, URL_WITH_ID } from './constants';
 import { validate as uuidValidate } from 'uuid';
 import { version as uuidVersion } from 'uuid';
 
@@ -15,8 +15,8 @@ export const getRequestData = (request: IncomingMessage): Promise<ICandidate> =>
       request.on('end', () => {
         resolve(JSON.parse(body));
       });
-    } catch (error) {
-      reject(error);
+    } catch (error: unknown) {
+      reject(getErrorMessage(error));
     }
   });
 };
@@ -34,7 +34,7 @@ export const getParams = (request: IncomingMessage): string => {
 };
 
 export const uuidValidateV4 = (uuid: string): boolean => {
-  return uuidValidate(uuid) && uuidVersion(uuid) === 4;
+  return uuidValidate(uuid) && uuidVersion(uuid) === RIGHT_VERSION;
 };
 
 export const checkPathname = (request: IncomingMessage): boolean => {
@@ -43,33 +43,46 @@ export const checkPathname = (request: IncomingMessage): boolean => {
   return path.slice(0, 3).join('/') === RIGHT_PATH;
 };
 
+export const getErrorMessage = (error: unknown): string => {
+  if (error instanceof Error) return error.message;
+  return String(error);
+};
+
+export const reportError = ({ message }: { message: string }): void => {
+  console.log(message);
+};
+
+export const setHeaders = (): { 'Content-Type': string } => {
+  return { 'Content-Type': 'application/json' };
+};
+
 export const prepareResponse = (
   response: ServerResponse,
   { statusCode, data, message }: { statusCode: number; data?: ICandidate | IUser[]; message?: string },
 ): void => {
   switch (statusCode) {
     case STATUS_CODE.OK:
-      response.writeHead(STATUS_CODE.OK, { 'Content-Type': 'application/json' });
+      response.writeHead(STATUS_CODE.OK, setHeaders());
       response.end(JSON.stringify({ data }));
       return;
     case STATUS_CODE.CREATED:
-      response.writeHead(STATUS_CODE.CREATED, { 'Content-Type': 'application/json' });
+      response.writeHead(STATUS_CODE.CREATED, setHeaders());
       response.end(JSON.stringify({ data }));
       return;
     case STATUS_CODE.BAD_REQUEST:
-      response.writeHead(STATUS_CODE.BAD_REQUEST, { 'Content-Type': 'application/json' });
+      response.writeHead(STATUS_CODE.BAD_REQUEST, setHeaders());
       response.end(JSON.stringify({ message: message }));
       return;
     case STATUS_CODE.NOT_FOUND:
-      response.writeHead(STATUS_CODE.NOT_FOUND, { 'Content-Type': 'application/json' });
+      response.writeHead(STATUS_CODE.NOT_FOUND, setHeaders());
       response.end(JSON.stringify({ message: message }));
       return;
     case STATUS_CODE.NO_CONTENT:
-      response.writeHead(STATUS_CODE.NO_CONTENT, { 'Content-Type': 'application/json' });
+      response.writeHead(STATUS_CODE.NO_CONTENT, setHeaders());
       response.end(JSON.stringify({ message: message }));
       return;
     case STATUS_CODE.INTERNAL_SERVER_ERROR:
-      response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR, { 'Content-Type': 'application/json' });
+      response.writeHead(STATUS_CODE.INTERNAL_SERVER_ERROR, setHeaders());
       response.end(JSON.stringify({ message: message }));
       return;
     default:

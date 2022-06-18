@@ -40,3 +40,5 @@ export const ERROR_MESSAGE: Readonly<{
 export const URL_WITH_ID: number = 3;
 
 export const RIGHT_PATH: string = '/api/users';
+
+export const RIGHT_VERSION: number = 4;

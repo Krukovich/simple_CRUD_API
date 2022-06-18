@@ -32,7 +32,7 @@ describe('Check method users-controller ', () => {
     const users: IUser[] = await controller.getAllUsers();
     const [user] = users;
 
-    const updateUser: IUser = await controller.updateUser(user.id, mockUpdateData)
+    const updateUser: IUser = await controller.updateUser(user.id, mockUpdateData);
 
     expect(users.length).toEqual(2);
     expect(updateUser).toMatchObject(mockUpdateData);
